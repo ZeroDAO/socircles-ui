@@ -1,0 +1,89 @@
+/* 改变主题色变量 */
+$--color-primary: #0BBCC2;
+$--color-success: #67C23A;
+$--color-adorn: #F85305;
+$--text-primary: #424346;
+$--text-second: #79797C;
+$--text-minor: #DCDFE6;
+$--daff-normal: 1.5em;
+$--bg-success: #4B64F8;
+$--bg-dark: #333333;
+$--bg-dark-second: #3D3C3C;
+$--title-mub: #333335;
+
+/* 改变 icon 字体路径变量，必需 */
+$--font-path: '~element-ui/lib/theme-chalk/fonts';
+
+@import "~element-ui/packages/theme-chalk/src/index";
+
+#app {
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: #FFFFFF;
+    color: $--text-primary;
+}
+
+.bg-dark-second {
+  background-color: $--bg-dark-second;
+}
+
+.primary-a {
+  color: $--text-primary;
+  &:hover {
+    background-color: $--color-primary;
+    color: #FFF;
+  }
+}
+
+.primary {
+  color: $--color-primary !important;
+}
+
+.border-primary {
+  border: 1px solid $--color-primary !important;
+}
+
+.adorn {
+  color: $--color-adorn;
+}
+
+.bg-primary,.drawer {
+  background-color: $--color-primary !important;
+  color: #FFF !important;
+}
+
+.bg-grad {
+  background-image: linear-gradient(175deg, $--color-primary 8%, #B76BF0 81%);
+}
+
+.bg-success {
+  background-color: $--bg-success;
+}
+
+.bg-dark {
+  background-color: $--bg-dark;
+}
+
+.text-primary {
+  color: $--text-primary;
+}
+
+.text-title {
+  font-size: 1.3em;
+  font-weight:bold;
+  line-height: 2em;
+  color: $--text-primary;
+}
+
+.text-second {
+  color: $--text-second;
+}
+
+.text-lable {
+  color: $--text-second;
+  padding: 3px 10px;
+  border: 1px solid $--text-second;
+  border-radius: 2em;
+  font-size: .8em;
+}
