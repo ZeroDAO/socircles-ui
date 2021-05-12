@@ -1,7 +1,7 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
-// import Vuex from 'vuex'
+import store from './vuex'
 
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
@@ -26,7 +26,7 @@ Vue.config.productionTip = false
 /*
 router.afterEach(function(to) {
     if (window.ga) {
-        window.ga('set', 'page', to.fullPath) // 你可能想根据请求参数添加其他参数，可以修改这里的 to.fullPath
+        window.ga('set', 'page', to.fullPath)
         window.ga('send', 'pageview')
     }
 })
@@ -35,6 +35,7 @@ router.afterEach(function(to) {
 new Vue({
     el: '#app',
     router,
+    store,
     render: h => h(App),
     template: '<App/>',
     components: {

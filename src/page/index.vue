@@ -20,8 +20,8 @@
             >名人堂</router-link
           >
           <a href="https://www.0P0.org" target="_blank" class="primary-a"
-            >ZeroºDAO</a
-          >
+            ><i class="iconfont icon-zerodao"></i
+          ></a>
         </ul>
         <div v-if="menuSele != '/'" class="search hidden-xs-only">
           <UserSearch />
@@ -70,17 +70,24 @@
         <span class="iconfont">&#xe611;SoCircles</span>
         <div>
           <a
-            href=""
+            href="https://space.bilibili.com/26392317/"
             target="_blank"
-            class="iconfont contact"
-            >&#xe646;</a
+            class="contact"
           >
-          <a
-            href=""
-            target="_blank"
-            class="iconfont contact"
-            >&#xe606;</a
-          >
+            <i class="iconfont icon-bzhan"></i>
+          </a>
+          <a href="https://github.com/ZeroDAO" target="_blank" class="contact">
+            <i class="iconfont icon-huaban88"></i>
+          </a>
+          <a href="https://www.huxiu.com/member/2759527.html" target="_blank" class="contact">
+            <i class="iconfont icon-huxiu"></i>
+          </a>
+                    <a href="https://www.zhihu.com/column/c_1297328527558426624" target="_blank" class="contact">
+            <i class="iconfont icon-zhihu"></i>
+          </a>
+          <a href="https://www.0P0.org" target="_blank" class="contact">
+            <i class="iconfont icon-zerodao"></i>
+          </a>
         </div>
       </el-footer>
     </el-container>
@@ -118,7 +125,7 @@ export default {
       this.$router.push({
         path: index,
       });
-    }
+    },
   },
 };
 </script>
@@ -129,11 +136,6 @@ export default {
     format("truetype");
   font-weight: normal;
   font-style: normal;
-}
-
-.echarts {
-  width: 100% !important;
-  height: 100% !important;
 }
 
 .el-footer {
@@ -150,7 +152,7 @@ export default {
   }
   .contact:hover {
     font-size: 2em;
-    color: #fff;
+    color: rgb(48, 137, 253);
   }
 }
 
@@ -192,6 +194,8 @@ export default {
   .nav {
     text-align: left;
     display: block;
+    padding-left: 20px;
+    width: 100%;
     a {
       display: inline;
       line-height: 60px;
@@ -207,9 +211,9 @@ export default {
     border-radius: 40px;
   }
   .search {
-    margin-right: 0;
     margin-left: auto;
-    min-width: 380px;
+    max-width: 600px;
+    width: 90%;
   }
 }
 
@@ -225,69 +229,6 @@ export default {
 
 .el-container.is-vertical {
   min-height: 100%;
-}
-
-.ctra,
-.dapp {
-  max-width: 1024px;
-  margin: 0 auto;
-  width: 100%;
-  .info-card {
-    margin-bottom: 1em;
-  }
-  .sidebar {
-    margin-bottom: 2em;
-  }
-  .el-card + .el-card {
-    margin-top: 1em;
-  }
-  .time-type {
-    margin-top: 2em;
-    display: flex;
-    justify-content: center;
-    padding: 1em;
-  }
-  .header {
-    width: 100%;
-    display: flex;
-    margin-top: 1em;
-    justify-content: space-between;
-    .info {
-      display: flex;
-    }
-    .text-title {
-      margin-top: -0.4em;
-      margin-bottom: 0.5em;
-    }
-    .to-app {
-      text-align: right;
-    }
-  }
-  .data {
-    margin-bottom: 2em;
-    .label,
-    .nub,
-    .trend {
-      display: flex;
-      justify-content: space-around;
-    }
-    .nub span {
-      font-family: "daff";
-      font-size: 2em;
-    }
-  }
-  .time {
-    font-size: 0.8em;
-    span {
-      margin-left: 1em;
-      line-height: 2em;
-    }
-  }
-  .tool {
-  }
-  .chart {
-    width: 100%;
-  }
 }
 
 #app {
@@ -335,26 +276,6 @@ export default {
   right: 0;
   bottom: 6em;
 }
-
-.grecaptcha-badge,
-.rc-anchor,
-.rc-anchor-invisible,
-.rc-anchor-light {
-  display: none;
-}
-
-.close-appl {
-  position: absolute;
-  top: 0.5em;
-  right: 0.5em;
-}
-
-.share-qrcode {
-  border-radius: 3px;
-  overflow: hidden;
-  margin-top: 5px;
-}
-
 .send-email {
   text-align: right;
 }

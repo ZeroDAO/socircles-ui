@@ -1,42 +1,49 @@
 <template>
   <div class="nonce main">
-    <div>
-      <el-select v-model="value" placeholder="请选择">
-        <el-option
-          v-for="item in nonceList"
-          :key="item.value"
-          :label="'Nonce ' + item.value"
-          :value="item.value"
-        >
-        </el-option>
-      </el-select>
-    </div>
-    <el-row :gutter="20" class="records">
-      <el-col :span="6">
-        <div class="cont">
-          <div v-for="i in 8" :key="i">
-            <div class="table">
-              <span class="primary">种子分数</span>
-              <span>1000</span>
+    <el-card class="chare-card" v-loading="headLoading">
+      <nonce-select v-on:changeNonce="newNonce($event)" />
+      <el-row :gutter="20" class="records">
+        <el-col xs:="24" :sm="6">
+          <div class="cont">
+            <div v-for="i in sysInfoColumn" :key="i.value">
+              <div class="table">
+                <span class="primary">{{ i.name }}</span>
+                <span>{{ sysInfo[i.value] }}</span>
+              </div>
+              <el-divider></el-divider>
             </div>
-            <el-divider></el-divider>
           </div>
-        </div>
-      </el-col>
-      <el-col :span="18" class="chart">
-        <v-chart :options="polar" :autoresize="true" />
-      </el-col>
-    </el-row>
+        </el-col>
+        <el-col xs:="24" :sm="18" class="chart">
+          <chart
+            v-if="hasSeriesData"
+            :seriesData="seriesData"
+            :isRatio="true"
+            :symbolSize="20"
+            :isLegend="true"
+          />
+        </el-col>
+      </el-row>
+    </el-card>
     <el-divider class="seed-lable primary">Hall of Fame</el-divider>
-    <el-row :gutter="20" class="seeds">
-      <el-col :xs="24" :sm="12" :md="8" v-for="o in 20" :key="o">
-        <el-card>
-          <img src="../assets/images/user.jpg" />
+    <el-row :gutter="10" class="seeds" v-loading="listLoading">
+      <el-col
+        :xs="24"
+        :sm="12"
+        :lg="6"
+        v-for="seed in seedsList"
+        :key="seed.id"
+      >
+        <el-card shadow="hover" @click.native="toUser(seed.address)">
+          <img
+            :src="
+            seed.avatar ?
+            'https://circles-ubi.s3.amazonaws.com/uploads/avatars/' + seed.avatar : 
+            nullImage"
+          />
           <div class="info">
-            <span>Martin</span>
-            <span class="text-second"
-              >0x42cEDde51198D1773590311E2A340DC06B24cB37</span
-            >
+            <span class="hover-primary">{{ seed.username }}</span>
+            <span class="text-second">{{ seed.address }}</span>
           </div>
         </el-card>
       </el-col>
@@ -45,56 +52,128 @@
 </template>
 
 <script>
-
-// import localstorage from "@/util/localstorage";
+import { post } from "@/util/http";
+import Chart from "@/components/Chart";
+import NonceSelect from "@/components/NonceSelect";
+import router from "@/router";
+import tools from "@/util/tools";
 
 export default {
   data() {
     return {
-      polar: {
-        xAxis: {},
-        yAxis: {},
-        color: ["#0BBCC2"],
-        series: [
-          {
-            symbolSize: 30,
-            data: [
-              [0, 0],
-              [50, 2.45844],
-              [75, 41.2198],
-              [90, 112.5],
-              [95, 141.59],
-              [99, 600],
-              [99.9, 800],
-              [100, 1000],
-            ],
-            type: "scatter",
-          },
-        ],
-      },
-      nonceList: [
+      nullImage: require('../assets/images/null.svg'),
+      sysInfoColumn: [
         {
-          value: "123",
+          name: "种子数量",
+          value: "seed_count",
         },
         {
-          value: "43",
+          name: "种子权重",
+          value: "seed_score",
         },
         {
-          value: "23",
+          name: "种子算法",
+          value: "seed_algo",
         },
         {
-          value: "2",
+          name: "用户数量",
+          value: "user_count",
         },
         {
-          value: "1",
+          name: "关系数量",
+          value: "trust_count",
+        },
+        {
+          name: "最小除数",
+          value: "min_divisor",
+        },
+        {
+          name: "阻尼系数",
+          value: "damping_factor",
+        },
+        {
+          name: "平均值",
+          value: "average",
         },
       ],
-      value: "123",
+      sysInfo: {
+        damping_factor: 0,
+        min_divisor: 0,
+        nonce: 0,
+        seed_algo: "betweenness",
+        seed_count: 0,
+        seed_score: 0,
+        trust_count: 0,
+        user_count: 0,
+        average: 0,
+      },
+      seedsList: [],
+      hasSeriesData: false,
+      seriesData: [],
+      listLoading: false,
+      headLoading: false,
     };
   },
-  components: {},
-  created: async function () {},
-  methods: {},
+  components: {
+    chart: Chart,
+    "nonce-select": NonceSelect,
+  },
+  created: async function () {
+    this.load();
+  },
+  methods: {
+    toUser(address) {
+      console.log(address);
+      router.push({
+        path: "/user/" + tools.toChecksumAddress(address),
+      });
+    },
+    load(nonce = "") {
+      this.listLoading = true;
+      this.headLoading = true;
+      post("sys/info", {
+        nonce,
+      })
+        .then((res) => {
+          this.value = res.nonce;
+          this.sysInfo = res;
+          nonce = res.nonce;
+          return post("seed/list", {
+            nonce: res.nonce,
+          });
+        })
+        .then((res) => {
+          this.seedsList = res;
+          this.listLoading = false;
+          return post("dashboard/list", {
+            nonce: nonce,
+          });
+        })
+        .then((res) => {
+          this.seriesData = res;
+          if (!!res) {
+            res.forEach((e) => {
+              if (e.algo == "reputation") {
+                this.sysInfo.average = e.mean;
+              }
+            });
+          }
+          this.hasSeriesData = true;
+          this.headLoading = false;
+        })
+        .catch((err) => {
+          this.listLoading = false;
+          this.headLoading = false;
+          this.$message.error("获取数据错误");
+          console.log(err);
+        });
+    },
+    newNonce(nonce) {
+      this.hasSeriesData = false;
+      this.nonce = nonce;
+      this.load(nonce);
+    },
+  },
 };
 </script>
 
@@ -130,6 +209,10 @@ export default {
       }
     }
   }
+  .chare-card {
+    margin-bottom: 80px;
+  }
+
   .seed-lable {
     margin: 45px auto;
     .el-divider__text {

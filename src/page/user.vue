@@ -1,73 +1,157 @@
 <template>
   <div class="user main">
-    <div class="address">
-      <span class="text-second">
-        0x42cEDde51198D1773590311E2A340DC06B24cB37
-      </span>
-      <router-link to="/">
-        <img src="../assets/images/circles-logo.svg" />
-      </router-link>
-    </div>
-    <el-divider></el-divider>
+    <err-msg title="未找到该用户" msg="请检查地址是否正确" v-if="err" />
+    <div v-else>
+      <div class="address">
+        <span class="text-second">
+          {{ address }}
+        </span>
+        <a
+          :href="'https://circles.garden/profile/' + address"
+          target="_blank"
+        >
+          <img src="../assets/images/circles-logo.svg" />
+        </a>
+      </div>
+      <el-divider></el-divider>
 
-    <div class="repu">
-      <div class="nonce">
-        <span>Nonce</span>
-        <el-select v-model="value" placeholder="请选择" size="mini">
-          <el-option
-            v-for="item in nonceList"
-            :key="item.value"
-            :label="item.value"
-            :value="item.value"
-          >
-          </el-option>
-        </el-select>
-        <el-button size="mini" type="primary" plain>更多详情</el-button>
+      <div class="repu" v-loading="repuLoading">
+        <div class="nonce">
+          <nonce-select v-on:changeNonce="newNonce($event)" />
+        </div>
+        <div class="repu-value">
+          <span class="primary">Reputationt</span>
+          <span class="text-second">{{ userInfo.reputation }}</span>
+        </div>
       </div>
-      <div class="repu-value">
-        <span class="primary">Reputationt</span>
-        <span class="text-second">12.88</span>
-      </div>
+      <el-divider></el-divider>
+      <el-row :gutter="20" v-loading="infoLoading">
+        <el-col :xs="12" :sm="6" v-for="i in userColumn" :key="i.name">
+          <span class="primary">{{ i.name }}</span>
+          <span class="daff-normal text-second">{{
+            userInfo[i.value].toFixed(2)
+          }}</span>
+        </el-col>
+      </el-row>
+      <el-divider></el-divider>
     </div>
-    <el-divider></el-divider>
-    <el-row :gutter="20">
-      <el-col :xs="12" :sm="6" v-for="o in 8" :key="o">
-        <span class="primary">PageRank</span>
-        <span class="daff-normal text-second">0.354</span>
-      </el-col>
-    </el-row>
-    <el-divider></el-divider>
   </div>
 </template>
 
 <script>
+import { post } from "@/util/http";
+import tools from "@/util/tools";
+import NonceSelect from "@/components/NonceSelect";
+import ErrMsg from "@/components/ErrMsg";
 
 export default {
   data() {
     return {
-      nonceList: [
+      address: "",
+      err: false,
+      infoLoading: false,
+      repuLoading: false,
+      userInfo: {
+        articleRank: 0,
+        closeness: 0,
+        degree: 0,
+        weight: 0,
+        reputation: 0,
+        betweenness: 0,
+        pagerank: 0,
+        harmonic: 0,
+        eigenvector: 0,
+      },
+      reputation: {},
+      nonce: 0,
+      userColumn: [
         {
-          value: "123",
+          name: "Reputation",
+          value: "reputation",
         },
         {
-          value: "43",
+          name: "ArticleRank",
+          value: "articleRank",
         },
         {
-          value: "23",
+          name: "Closeness",
+          value: "closeness",
         },
         {
-          value: "2",
+          name: "Aegree",
+          value: "degree",
         },
         {
-          value: "1",
+          name: "Betweenness",
+          value: "betweenness",
+        },
+        {
+          name: "Pagerank",
+          value: "pagerank",
+        },
+        {
+          name: "Harmonic",
+          value: "harmonic",
+        },
+        {
+          name: "Aigenvector",
+          value: "eigenvector",
         },
       ],
-      value: "1",
     };
   },
-  components: {},
-  created: async function () {},
-  methods: {},
+  components: {
+    "nonce-select": NonceSelect,
+    "err-msg": ErrMsg,
+  },
+  created: async function () {
+    let address = this.$route.params.address;
+    if (!tools.isEthAddress(address)) {
+      this.err = true;
+    }
+    this.address = tools.toChecksumAddress(address);
+    this.getUserInfo();
+  },
+  methods: {
+    getUserInfo() {
+      this.infoLoading = true;
+      this.repuLoading = true;
+      post("user/info", {
+        address: this.address,
+      })
+        .then((res) => {
+          this.userInfo = res;
+          this.reputation[res.nonce] = res.reputation;
+          this.infoLoading = false;
+          this.repuLoading = false;
+        })
+        .catch((err) => {
+          console.log(err);
+          this.infoLoading = false;
+          this.repuLoading = false;
+        });
+    },
+    newNonce(nonce) {
+      if (this.reputation[nonce]) {
+        this.nonce = nonce;
+      } else {
+        this.repuLoading = true;
+        post("user/reputationt", {
+          nonce: nonce,
+          address: this.address,
+        })
+          .then((res) => {
+            this.reputation[nonce] = res.reputation;
+            this.nonce = nonce;
+            this.repuLoading = false;
+          })
+          .catch((err) => {
+            this.repuLoading = false;
+            console.log(err);
+          });
+      }
+    },
+  },
 };
 </script>
 
@@ -100,9 +184,6 @@ export default {
   .repu {
     .nonce {
       text-align: right;
-    }
-    .el-select {
-      width: 80px;
     }
     .repu-value {
       text-align: center;

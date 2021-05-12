@@ -2,19 +2,13 @@
 import qs from 'qs';
 import router from '../router';
 
-// this.$message('这是一条消息提示');
-
 // axios 配置
 axios.defaults.timeout = 15000;
 
 axios.defaults.baseURL = '/cir';
-const whiteList = [];
-const noCacheList = ['/user/get-msg-count', '/list/new', '/list/active'];
-// 白名单外的请求验证登录，并带上token
-// Cache-Control: max-age=31536000
+
 axios.interceptors.request.use(
     function(config) {
-
         config.headers = {
             'Content-Type': 'application/x-www-form-urlencoded',
         };
@@ -31,8 +25,10 @@ axios.interceptors.response.use(
     response => {
         if (response.status != 200) {
             // Toast.error(response.data.message);
+            this.$message('获取数据错误')
             return false;
-        } else if (response.data.code != 1000) {
+        } else if (response.data.status != 'ok' && response.data.code != 1000) {
+            this.$message('获取数据错误')
             return false;
         }
         return response.data;

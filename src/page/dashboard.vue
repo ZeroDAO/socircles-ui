@@ -1,20 +1,28 @@
 <template>
   <div class="dashboard main">
-    <el-row :gutter="20" class="apps">
-      <el-col :xs="24" :sm="12" v-for="o in 8" :key="o">
+    <el-row :gutter="20" class="apps" v-loading="loading">
+      <el-col :xs="24" :sm="12" v-for="item in list" :key="item.algo">
         <el-card class="box-card">
           <div slot="header" class="clearfix">
-            <span class="text-second">Reputationt</span>
+            <span class="text-second">{{ item.algo }}</span>
           </div>
           <div class="content">
             <div class="list">
-              <div class="metrics" v-for="o in 3" :key="o">
-                <span class="primary">内容</span>
-                <span class="value">1233{{ o }}</span>
+              <div class="metrics">
+                <span class="primary">最小值</span>
+                <span class="value">{{ item.min }}</span>
+              </div>
+              <div class="metrics">
+                <span class="primary">最大值</span>
+                <span class="value">{{ item.max }}</span>
+              </div>
+              <div class="metrics">
+                <span class="primary">平均值</span>
+                <span class="value">{{ item.mean }}</span>
               </div>
             </div>
             <div class="chart">
-              <v-chart width="100%" :options="polar" :autoresize="true" />
+              <chart :seriesData="[item]" />
             </div>
           </div>
         </el-card>
@@ -24,36 +32,36 @@
 </template>
 
 <script>
+import { post } from "@/util/http";
+import Chart from "@/components/Chart";
 
 export default {
   data() {
     return {
-      polar: {
-        xAxis: {},
-        yAxis: {},
-        color: ['#0BBCC2'],
-        series: [
-          {
-            symbolSize: 30,
-            data: [
-              [0, 0],
-              [50, 2.45844],
-              [75, 41.2198],
-              [90, 112.5],
-              [95, 141.59],
-              [99, 600],
-              [99.9, 800],
-              [100, 1000],
-            ],
-            type: "scatter",
-          },
-        ],
-      },
+      list: {},
+      loading: false,
     };
   },
-  components: {},
-  created: async function () {},
-  methods: {},
+  components: {
+    chart: Chart,
+  },
+  created: async function () {
+    this.getList();
+  },
+  methods: {
+    async getList() {
+      this.loading = true;
+      post("dashboard/list")
+        .then((res) => {
+          this.list = res;
+          this.loading = false;
+        })
+        .catch((err) => {
+          this.loading = false;
+          console.log(err);
+        });
+    },
+  },
 };
 </script>
 

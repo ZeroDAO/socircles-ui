@@ -29,8 +29,7 @@ export default [
                 }
             },
             {
-                // path: '/user/:address:?',
-                path: '/user',
+                path: '/user/:address',
                 name: '用户',
                 component: User,
                 meta: {

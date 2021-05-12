@@ -38,7 +38,7 @@ module.exports = {
 
         proxyTable: {
             '/cir': {
-                target: 'http://localhost:8001/api/app/circles',
+                target: 'http://localhost:8001/app/circles',
                 changeOrigin: true,
                 pathRewrite: {
                     '^/cir': ''

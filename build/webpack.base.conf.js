@@ -15,6 +15,7 @@ module.exports = {
     externals: {
         // VueRouter : 'VueRouter',
         axios: 'axios',
+        vuex: 'vuex',
         // vueecharts: 'vue-echarts@4.0.2'
     },
 

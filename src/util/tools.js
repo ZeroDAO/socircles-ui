@@ -1,3 +1,6 @@
+import * as createKeccakHash from 'keccak';
+import { get } from "@/util/http";
+
 const tools = {
   getDateStr(addDayCount) {
     var dd = new Date();
@@ -6,7 +9,11 @@ const tools = {
     var d = dd.getDate();
     return m + "-" + d;
   },
-  
+
+  isEthAddress(address) {
+    return /^(0x)?[0-9a-fA-F]{40}$/.test(address);
+  },
+
   toChecksumAddress(address) {
     address = address.toLowerCase().replace("0x", "");
     var hash = createKeccakHash("keccak256").update(address).digest("hex");
@@ -21,6 +28,19 @@ const tools = {
     }
     return ret;
   },
+  getInfoByName(name) {
+    return new Promise((resolve, reject) => {
+      get('https://api.circles.garden/api/users', {
+        username: name
+      })
+        .then((res) => {
+          resolve(res)
+        })
+        .catch(error => {
+          reject(error)
+        })
+    })
+  }
 }
 
 export default tools
