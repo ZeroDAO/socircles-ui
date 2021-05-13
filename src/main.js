@@ -19,9 +19,11 @@ import App from './App'
 import router from './router';
 
 Vue.use(ElementUI);
+
 Vue.component('v-chart', ECharts)
 
 Vue.config.productionTip = false
+
 /*
 router.afterEach(function(to) {
     if (window.ga) {

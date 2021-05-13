@@ -1,6 +1,7 @@
 // import axios from 'axios';
 import qs from 'qs';
-import router from '../router';
+import { Message } from 'element-ui';
+// import router from '../router';
 
 // axios 配置
 axios.defaults.timeout = 15000;
@@ -23,12 +24,8 @@ axios.interceptors.request.use(
 // http response 拦截器
 axios.interceptors.response.use(
     response => {
-        if (response.status != 200) {
-            // Toast.error(response.data.message);
-            this.$message('获取数据错误')
-            return false;
-        } else if (response.data.status != 'ok' && response.data.code != 1000) {
-            this.$message('获取数据错误')
+        if (response.status != 200 || (response.data.status != 'ok' && response.data.code != 1000)) {
+            Message.error('获取数据错误');
             return false;
         }
         return response.data;
