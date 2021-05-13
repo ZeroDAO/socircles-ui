@@ -64,35 +64,35 @@ export default {
       nullImage: require('../assets/images/null.svg'),
       sysInfoColumn: [
         {
-          name: "种子数量",
+          name: this.$t("page.seed_count"),
           value: "seed_count",
         },
         {
-          name: "种子权重",
+          name: this.$t("page.seed_count"),
           value: "seed_score",
         },
         {
-          name: "种子算法",
+          name: this.$t("page.seed_algo"),
           value: "seed_algo",
         },
         {
-          name: "用户数量",
+          name: this.$t("page.user_count"),
           value: "user_count",
         },
         {
-          name: "关系数量",
+          name: this.$t("page.trust_count"),
           value: "trust_count",
         },
         {
-          name: "最小除数",
+          name: this.$t("page.min_divisor"),
           value: "min_divisor",
         },
         {
-          name: "阻尼系数",
+          name: this.$t("page.damping_factor"),
           value: "damping_factor",
         },
         {
-          name: "平均值",
+          name: this.$t("page.average"),
           value: "average",
         },
       ],

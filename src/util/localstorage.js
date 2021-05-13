@@ -1,3 +1,4 @@
+
 const localstorage = {
     set(key, value, expired) {
         localStorage.setItem(key, JSON.stringify({
@@ -12,15 +13,10 @@ const localstorage = {
             if (value.expired != 0 && Date.now() >= value.expired) {
                 this.remove(key);
             } else {
-                return {
-                    status: true,
-                    data: value.data
-                };
+                return value.data
             }
         }
-        return {
-            status: false
-        };
+        return false
     },
     remove(key) {
         localStorage.removeItem(key);

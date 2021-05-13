@@ -12,6 +12,7 @@ import ECharts from 'vue-echarts'
 import 'echarts/lib/chart/bar'
 import 'echarts/lib/component/tooltip'
 import 'echarts-gl'
+import i18n from './util/i18n'
 
 import App from './App'
 
@@ -19,8 +20,6 @@ import router from './router';
 
 Vue.use(ElementUI);
 Vue.component('v-chart', ECharts)
-
-let isLoad = false;
 
 Vue.config.productionTip = false
 /*
@@ -36,6 +35,7 @@ new Vue({
     el: '#app',
     router,
     store,
+    i18n,
     render: h => h(App),
     template: '<App/>',
     components: {

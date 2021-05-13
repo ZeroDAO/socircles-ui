@@ -6,18 +6,17 @@
           <img src="../assets/images/logo-b.svg" />
         </router-link>
         <ul class="nav hidden-xs-only">
-          <router-link to="/" :class="menuSele == '/' ? 'primary bottom-line' : 'primary-a'"
-            >首页</router-link
-          >
           <router-link
             to="/dashboard"
-            :class="menuSele == '/dashboard' ? 'primary bottom-line' : 'primary-a'"
-            >仪表盘</router-link
+            :class="
+              menuSele == '/dashboard' ? 'primary bottom-line' : 'primary-a'
+            "
+            >{{ $t("page.dashboard") }}</router-link
           >
           <router-link
             to="/nonce"
             :class="menuSele == '/nonce' ? 'primary bottom-line' : 'primary-a'"
-            >名人堂</router-link
+            >{{ $t("page.hall_of_fame") }}</router-link
           >
           <a href="https://www.0P0.org" target="_blank" class="primary-a"
             ><i class="iconfont icon-zerodao"></i
@@ -42,20 +41,20 @@
         :with-header="false"
       >
         <div @click="drawer = false">
-          <router-link to="/" class="iconfont">&#xe608;&nbsp;首页</router-link>
+          <router-link to="/" class="iconfont">&#xe608;&nbsp;Home</router-link>
         </div>
         <div @click="drawer = false">
           <el-divider></el-divider>
         </div>
         <div @click="drawer = false">
           <router-link to="/dashboard" class="iconfont"
-            >&#xe60b;&nbsp;仪表盘</router-link
+            >&#xe60b;&nbsp;$t("page.dashboard")</router-link
           >
         </div>
         <el-divider></el-divider>
         <div @click="drawer = false">
           <router-link to="/nonce" class="iconfont"
-            >&#xe603;&nbsp;名人堂</router-link
+            >&#xe603;&nbsp;$t("page.hall_of_fame")</router-link
           >
         </div>
         <el-divider></el-divider>
@@ -67,7 +66,16 @@
         <router-view></router-view>
       </el-main>
       <el-footer height="100">
-        <span class="iconfont">&#xe611;SoCircles</span>
+        <el-dropdown @command="changeLang">
+          <span class="el-dropdown-link">
+            <i class="iconfont icon-yuyan"></i>
+            {{ $t("page.language") }}
+          </span>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item command="zh-CN">中文</el-dropdown-item>
+            <el-dropdown-item command="en-US">English</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
         <div>
           <a
             href="https://space.bilibili.com/26392317/"
@@ -79,10 +87,18 @@
           <a href="https://github.com/ZeroDAO" target="_blank" class="contact">
             <i class="iconfont icon-huaban88"></i>
           </a>
-          <a href="https://www.huxiu.com/member/2759527.html" target="_blank" class="contact">
+          <a
+            href="https://www.huxiu.com/member/2759527.html"
+            target="_blank"
+            class="contact"
+          >
             <i class="iconfont icon-huxiu"></i>
           </a>
-                    <a href="https://www.zhihu.com/column/c_1297328527558426624" target="_blank" class="contact">
+          <a
+            href="https://www.zhihu.com/column/c_1297328527558426624"
+            target="_blank"
+            class="contact"
+          >
             <i class="iconfont icon-zhihu"></i>
           </a>
           <a href="https://www.0P0.org" target="_blank" class="contact">
@@ -96,6 +112,7 @@
 
 <script>
 import UserSearch from "@/components/UserSearch";
+import localstorage from "@/util/localstorage";
 
 export default {
   name: "HomeIndex",
@@ -118,6 +135,11 @@ export default {
   },
   created: async function () {
     this.menuSele = this.$route.path;
+    let navLanguage = localstorage.fetch("language") || navigator.language;
+    if (typeof this.$i18n.messages[navLanguage] == "undefined") {
+      navLanguage = "en-US";
+    }
+    this.$i18n.locale = navLanguage;
   },
   mounted: async function () {},
   methods: {
@@ -125,6 +147,11 @@ export default {
       this.$router.push({
         path: index,
       });
+    },
+    changeLang(language) {
+      console.log(language);
+      this.$i18n.locale = language;
+      localstorage.set("language", language, 0);
     },
   },
 };

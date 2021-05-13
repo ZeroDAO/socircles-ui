@@ -9,15 +9,15 @@
           <div class="content">
             <div class="list">
               <div class="metrics">
-                <span class="primary">最小值</span>
+                <span class="primary">{{ $t("page.min") }}</span>
                 <span class="value">{{ item.min }}</span>
               </div>
               <div class="metrics">
-                <span class="primary">最大值</span>
+                <span class="primary">{{ $t("page.max") }}</span>
                 <span class="value">{{ item.max }}</span>
               </div>
               <div class="metrics">
-                <span class="primary">平均值</span>
+                <span class="primary">{{ $t("page.average") }}</span>
                 <span class="value">{{ item.mean }}</span>
               </div>
             </div>

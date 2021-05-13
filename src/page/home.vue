@@ -15,7 +15,7 @@
       <el-input v-model="from" placeholder="From Address / Username"></el-input>
       <i class="iconfont icon-ttd-copy-copy rel-icon"></i>
       <el-input v-model="to" placeholder="To Address / Username"></el-input>
-      <el-button type="primary" round @click="doSearch">找关系</el-button>
+      <el-button type="primary" round @click="doSearch">{{ $t("page.find") }}</el-button>
       <div class="rel-res" v-if="showRes && hasRel" v-loading="loading">
         <el-card shadow="hover" class="bg-primary" @click.native="toUser(from)">{{ from }}</el-card>
         <i class="iconfont icon-ttd-copy-copy rel-icon"></i>
@@ -27,7 +27,7 @@
         </div>
         <el-card shadow="hover" class="bg-primary" @click.native="toUser(to)">{{ to }}</el-card>
       </div>
-      <p v-if="showRes && !hasRel">用户不存在或未找到8度以内关系</p>
+      <p v-if="showRes && !hasRel">{{ $t("page.no_user") }}</p>
     </div>
   </div>
 </template>
