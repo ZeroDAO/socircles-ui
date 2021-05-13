@@ -44,6 +44,10 @@ $--font-path: '~element-ui/lib/theme-chalk/fonts';
   border: 1px solid $--color-primary !important;
 }
 
+.bottom-line {
+  border-bottom: 3px solid $--color-primary;
+}
+
 .adorn {
   color: $--color-adorn;
 }

@@ -6,17 +6,17 @@
           <img src="../assets/images/logo-b.svg" />
         </router-link>
         <ul class="nav hidden-xs-only">
-          <router-link to="/" :class="menuSele == '/' ? 'primary' : 'primary-a'"
+          <router-link to="/" :class="menuSele == '/' ? 'primary bottom-line' : 'primary-a'"
             >首页</router-link
           >
           <router-link
             to="/dashboard"
-            :class="menuSele == '/dashboard' ? 'primary' : 'primary-a'"
+            :class="menuSele == '/dashboard' ? 'primary bottom-line' : 'primary-a'"
             >仪表盘</router-link
           >
           <router-link
             to="/nonce"
-            :class="menuSele == '/nonce' ? 'primary' : 'primary-a'"
+            :class="menuSele == '/nonce' ? 'primary bottom-line' : 'primary-a'"
             >名人堂</router-link
           >
           <a href="https://www.0P0.org" target="_blank" class="primary-a"
