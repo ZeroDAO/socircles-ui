@@ -41,25 +41,30 @@
         :with-header="false"
       >
         <div @click="drawer = false">
-          <router-link to="/" class="iconfont">&#xe608;&nbsp;Home</router-link>
+          <router-link to="/"
+            ><i class="iconfont icon-yemian-copy-copy-copy"></i
+            >Home</router-link
+          >
         </div>
         <div @click="drawer = false">
           <el-divider></el-divider>
         </div>
         <div @click="drawer = false">
-          <router-link to="/dashboard" class="iconfont"
-            >&#xe60b;&nbsp;$t("page.dashboard")</router-link
+          <router-link to="/dashboard"
+            ><i class="iconfont icon-yibiaopan"></i
+            >{{ $t("page.dashboard") }}</router-link
           >
         </div>
         <el-divider></el-divider>
         <div @click="drawer = false">
-          <router-link to="/nonce" class="iconfont"
-            >&#xe603;&nbsp;$t("page.hall_of_fame")</router-link
+          <router-link to="/nonce"
+            ><i class="iconfont icon-jiangzuo"></i
+            >{{ $t("page.hall_of_fame") }}</router-link
           >
         </div>
         <el-divider></el-divider>
-        <a href="https://www.0P0.org" target="_blank" class="iconfont"
-          >&#xe60a;&nbsp;ZeroºDAO</a
+        <a href="https://www.0P0.org" target="_blank"
+          ><i class="iconfont icon-zerodao"></i>ZeroºDAO</a
         >
       </el-drawer>
       <el-main>
@@ -199,6 +204,11 @@ export default {
     margin-top: 1em;
     font-size: 1.2em;
     line-height: 3em;
+  }
+  .el-drawer__body {
+    i {
+      margin-right: 10px;
+    }
   }
 }
 
