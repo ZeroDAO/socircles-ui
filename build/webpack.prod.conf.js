@@ -21,8 +21,8 @@ var webpackConfig = merge(baseWebpackConfig, {
   devtool: config.build.productionSourceMap ? '#source-map' : false,
   output: {
     // 使用oss存储静态文件
-    // publicPath:'https://XXX.oss-cn-beijing.aliyuncs.com/s3/',
-    publicPath:'./static',
+    publicPath:'https://pic.tom24h.com/circles/',
+    // publicPath:'./static',
     path: config.build.assetsRoot,
     filename: utils.assetsPath('js/[name].[chunkhash].js'),
     chunkFilename: utils.assetsPath('js/[id].[chunkhash].js')

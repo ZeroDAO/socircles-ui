@@ -21,7 +21,7 @@
         </div>
         <div class="repu-value">
           <span class="primary">Reputationt</span>
-          <span class="text-second">{{ userInfo.reputation }}</span>
+          <span class="text-second">{{ reputation[nonce] }}</span>
         </div>
       </div>
       <el-divider></el-divider>
@@ -121,6 +121,7 @@ export default {
       })
         .then((res) => {
           this.userInfo = res;
+          this.nonce = res.nonce;
           this.reputation[res.nonce] = res.reputation;
           this.infoLoading = false;
           this.repuLoading = false;
@@ -141,7 +142,9 @@ export default {
           address: this.address,
         })
           .then((res) => {
-            this.reputation[nonce] = res.reputation;
+            console.log(res);
+            console.log(this.reputation);
+            this.reputation[nonce] = res[0].reputation;
             this.nonce = nonce;
             this.repuLoading = false;
           })

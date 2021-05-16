@@ -37,11 +37,11 @@ module.exports = {
         assetsPublicPath: '/',
 
         proxyTable: {
-            '/cir': {
+            '/api/app/circles': {
                 target: 'http://localhost:8001/app/circles',
                 changeOrigin: true,
                 pathRewrite: {
-                    '^/cir': ''
+                    '^/api/app/circles': ''
                 }
             },
         },

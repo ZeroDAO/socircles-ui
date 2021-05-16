@@ -6,7 +6,7 @@ import { Message } from 'element-ui';
 // axios 配置
 axios.defaults.timeout = 15000;
 
-axios.defaults.baseURL = '/cir';
+axios.defaults.baseURL = '/api/app/circles';
 
 axios.interceptors.request.use(
     function(config) {

@@ -5,10 +5,10 @@
       <el-row :gutter="20" class="records">
         <el-col xs:="24" :sm="6">
           <div class="cont">
-            <div v-for="i in sysInfoColumn" :key="i.value">
+            <div v-for="i in sysInfoColumn" :key="i">
               <div class="table">
-                <span class="primary">{{ i.name }}</span>
-                <span>{{ sysInfo[i.value] }}</span>
+                <span class="primary">{{ $t("page." + i) }}</span>
+                <span>{{ sysInfo[i] }}</span>
               </div>
               <el-divider></el-divider>
             </div>
@@ -25,12 +25,12 @@
         </el-col>
       </el-row>
     </el-card>
-    <el-divider class="seed-lable primary">Hall of Fame</el-divider>
+    <el-divider class="seed-lable primary">Seeds</el-divider>
     <el-row :gutter="10" class="seeds" v-loading="listLoading">
       <el-col
         :xs="24"
         :sm="12"
-        :lg="6"
+        :lg="8"
         v-for="seed in seedsList"
         :key="seed.id"
       >
@@ -61,40 +61,16 @@ import tools from "@/util/tools";
 export default {
   data() {
     return {
-      nullImage: require('../assets/images/null.svg'),
+      nullImage: require("../assets/images/null.svg"),
       sysInfoColumn: [
-        {
-          name: this.$t("page.seed_count"),
-          value: "seed_count",
-        },
-        {
-          name: this.$t("page.seed_count"),
-          value: "seed_score",
-        },
-        {
-          name: this.$t("page.seed_algo"),
-          value: "seed_algo",
-        },
-        {
-          name: this.$t("page.user_count"),
-          value: "user_count",
-        },
-        {
-          name: this.$t("page.trust_count"),
-          value: "trust_count",
-        },
-        {
-          name: this.$t("page.min_divisor"),
-          value: "min_divisor",
-        },
-        {
-          name: this.$t("page.damping_factor"),
-          value: "damping_factor",
-        },
-        {
-          name: this.$t("page.average"),
-          value: "average",
-        },
+        "seed_count",
+        "seed_score",
+        "seed_algo",
+        "user_count",
+        "trust_count",
+        "min_divisor",
+        "damping_factor",
+        "average"
       ],
       sysInfo: {
         damping_factor: 0,
@@ -227,6 +203,7 @@ export default {
     }
     img {
       width: 100px;
+      height: 100px;
       margin: 0;
     }
     .info {
