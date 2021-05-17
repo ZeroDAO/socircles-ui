@@ -12,7 +12,7 @@ module.exports = {
         // 打包静态文件到OSS
         // ssetsPublicPath: 'http://.../',
 
-        assetsPublicPath: './',
+        assetsPublicPath: 'https://pic.tom24h.com/circles/',
         productionSourceMap: false,
 
         // Gzip off by default as many popular static hosts such as

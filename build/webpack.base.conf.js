@@ -16,7 +16,7 @@ module.exports = {
         // VueRouter : 'VueRouter',
         axios: 'axios',
         vuex: 'vuex',
-        // vueecharts: 'vue-echarts@4.0.2'
+        VueEcharts: 'vue-echarts@4.0.2'
     },
 
     output: {
@@ -43,12 +43,11 @@ module.exports = {
             test: /\.js$/,
             loader: 'babel-loader',
             include: [
-                resolve('src'),
-                resolve('test'),
-                resolve('node_modules/vue-echarts'),
-                resolve('node_modules/resize-detector'),
+                resolve('/src'),
+                resolve('/node_modules/vue-echarts'),
+                resolve('/node_modules/resize-detector'),
                 resolve('/node_modules/base-x'),
-                resolve('/node_modules/base-x')
+                resolve('/node_modules/keccak')
             ]
         },
         {

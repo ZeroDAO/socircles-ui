@@ -4,13 +4,11 @@ import Vue from 'vue'
 import store from './vuex'
 
 import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css'
 import 'element-ui/lib/theme-chalk/display.css'
 import './theme/element-variables.scss'
 
 import ECharts from 'vue-echarts'
 import 'echarts/lib/chart/bar'
-import 'echarts/lib/component/tooltip'
 import 'echarts-gl'
 import i18n from './util/i18n'
 
