@@ -3,6 +3,7 @@ const Dashboard = () => import('@/page/dashboard')
 const HomeIndex = () => import('@/page/index')
 const User = () => import('@/page/user')
 const Nonce = () => import('@/page/nonce')
+const Top = () => import('@/page/top')
 
 export default [
     {
@@ -13,36 +14,41 @@ export default [
         },
         children: [
             {
-                path: '',
-                name: '首页',
+                path: '/',
+                name: 'home',
                 component: Home,
                 meta: {
-                    keepAlive: true,
+                    keepAlive: true
                 }
             },
             {
-                path: '/dashboard',
-                name: '发现',
+                path: 'dashboard',
+                name: 'dashboard',
                 component: Dashboard,
                 meta: {
-                    keepAlive: true,
+                    keepAlive: true
                 }
             },
             {
-                path: '/user/:address',
-                name: '用户',
+                path: 'user/:address',
+                name: 'User',
                 component: User,
                 meta: {
-                    keepAlive: true,
+                    keepAlive: true
                 }
             },
             {
-                path: '/nonce',
-                name: '名人堂',
+                path: 'nonce',
+                name: 'Nonce',
                 component: Nonce,
                 meta: {
                     keepAlive: true,
                 }
+            },
+            {
+                path: 'top',
+                name: 'TOP20',
+                component: Top
             }
         ]
     }

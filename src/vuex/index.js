@@ -1,8 +1,8 @@
-import Vue from 'vue'
+// import Vue from 'vue'
 import localstorage from '@/util/localstorage';
 import { post } from "@/util/http";
 
-Vue.use(Vuex)
+// Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {

@@ -68,7 +68,9 @@
         >
       </el-drawer>
       <el-main>
+        <keep-alive>
         <router-view></router-view>
+        </keep-alive>
       </el-main>
       <el-footer height="100">
         <el-dropdown @command="changeLang">
@@ -127,18 +129,15 @@ export default {
       drawer: false,
     };
   },
-  computed: {
-    userInfo() {},
-  },
   components: {
     UserSearch: UserSearch,
   },
   watch: {
-    $route(to, from) {
+    $route() {
       this.menuSele = this.$route.path;
     },
   },
-  created: async function () {
+  created() {
     this.menuSele = this.$route.path;
     let navLanguage = localstorage.fetch("language") || navigator.language;
     if (typeof this.$i18n.messages[navLanguage] == "undefined") {
@@ -146,15 +145,8 @@ export default {
     }
     this.$i18n.locale = navLanguage;
   },
-  mounted: async function () {},
   methods: {
-    menu: async function (index) {
-      this.$router.push({
-        path: index,
-      });
-    },
     changeLang(language) {
-      console.log(language);
       this.$i18n.locale = language;
       localstorage.set("language", language, 0);
     },

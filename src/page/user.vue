@@ -31,6 +31,9 @@
           <span class="daff-normal text-second">{{
             userInfo[i.value].toFixed(2)
           }}</span>
+          <!--
+          <el-progress :percentage="" :show-text="false"></el-progress>
+          -->
         </el-col>
       </el-row>
       <el-divider></el-divider>

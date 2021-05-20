@@ -42,6 +42,7 @@ import router from "@/router";
 let polarData = [];
 
 export default {
+  name: "home",
   data() {
     return {
       searchType: "user",
@@ -56,7 +57,6 @@ export default {
   components: {
     UserSearch: UserSearch,
   },
-  created: async function () {},
   methods: {
     toUser(address) {
       router.push({

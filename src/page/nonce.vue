@@ -25,27 +25,36 @@
         </el-col>
       </el-row>
     </el-card>
-    <el-divider class="seed-lable primary">Seeds</el-divider>
-    <el-row :gutter="10" class="seeds" v-loading="listLoading">
-      <el-col
+    <el-divider class="seed-lable primary">名人堂</el-divider>
+    <div v-loading="fameLoading">
+      <p v-if="fameList.length == 0" class="pame-hid">未指定名人堂</p>
+      <el-row v-else :gutter="10" class="fame">
+        <el-col
         :xs="24"
         :sm="12"
         :lg="8"
+        v-for="fame in fameList"
+        :key="fame.id"
+      >
+          <user-info :avatar="fame.avatar" :username="fame.username" :address="fame.address" />
+        </el-col>
+      </el-row>
+    </div>
+    <el-divider class="seed-lable primary">Seeds</el-divider>
+    <el-row :gutter="10" class="seeds" v-loading="listLoading">
+      <el-col
+        :xs="12"
+        :sm="8"
+        :lg="6"
         v-for="seed in seedsList"
         :key="seed.id"
       >
-        <el-card shadow="hover" @click.native="toUser(seed.address)">
-          <img
-            :src="
-            seed.avatar ?
-            'https://circles-ubi.s3.amazonaws.com/uploads/avatars/' + seed.avatar : 
-            nullImage"
-          />
-          <div class="info">
-            <span class="hover-primary">{{ seed.username }}</span>
-            <span class="text-second">{{ seed.address }}</span>
-          </div>
-        </el-card>
+        <user-info
+          :avatar="seed.avatar"
+          :username="seed.username"
+          :address="seed.address"
+          type="small"
+        />
       </el-col>
     </el-row>
   </div>
@@ -55,13 +64,11 @@
 import { post } from "@/util/http";
 import Chart from "@/components/Chart";
 import NonceSelect from "@/components/NonceSelect";
-import router from "@/router";
-import tools from "@/util/tools";
+import UserInfo from "@/components/UserInfo";
 
 export default {
   data() {
     return {
-      nullImage: require("../assets/images/null.svg"),
       sysInfoColumn: [
         "seed_count",
         "seed_score",
@@ -70,7 +77,7 @@ export default {
         "trust_count",
         "min_divisor",
         "damping_factor",
-        "average"
+        "average",
       ],
       sysInfo: {
         damping_factor: 0,
@@ -84,29 +91,28 @@ export default {
         average: 0,
       },
       seedsList: [],
+      fameList: [],
       hasSeriesData: false,
       seriesData: [],
       listLoading: false,
       headLoading: false,
+      fameLoading: false,
     };
   },
   components: {
     chart: Chart,
     "nonce-select": NonceSelect,
+    "user-info": UserInfo,
   },
   created: async function () {
     this.load();
+    console.log('nonce');
   },
   methods: {
-    toUser(address) {
-      console.log(address);
-      router.push({
-        path: "/user/" + tools.toChecksumAddress(address),
-      });
-    },
     load(nonce = "") {
       this.listLoading = true;
       this.headLoading = true;
+      this.fameLoading = true;
       post("sys/info", {
         nonce,
       })
@@ -135,12 +141,20 @@ export default {
             });
           }
           this.hasSeriesData = true;
+          return post("seed/fame", {
+            nonce: nonce,
+          });
+        })
+        .then((res) => {
+          this.fameList = res;
+          this.fameLoading = false;
           this.headLoading = false;
         })
         .catch((err) => {
           this.listLoading = false;
           this.headLoading = false;
-          this.$message.error("获取数据错误");
+          this.fameLoading = false;
+          this.$message.error(err);
           console.log(err);
         });
     },
@@ -185,6 +199,9 @@ export default {
       }
     }
   }
+  .pame-hid {
+    text-align: center;
+  }
   .chare-card {
     margin-bottom: 80px;
   }
@@ -196,32 +213,8 @@ export default {
       font-weight: bold;
     }
   }
-  .seeds {
-    .el-card__body {
-      padding: 0;
-      display: flex;
-    }
-    img {
-      width: 100px;
-      height: 100px;
-      margin: 0;
-    }
-    .info {
-      display: flex;
-      flex-flow: column;
-      justify-content: center;
-      span {
-        margin: 10px;
-      }
-      span:first-child {
-        font-size: 22px;
-        font-weight: bold;
-      }
-      span:last-child {
-        font-size: 12px;
-        word-break: break-all;
-      }
-    }
+  .seeds,
+  .fame {
     .el-col {
       margin-top: 15px;
     }

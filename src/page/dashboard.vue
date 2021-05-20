@@ -36,6 +36,7 @@ import { post } from "@/util/http";
 import Chart from "@/components/Chart";
 
 export default {
+  name: "dashboard",
   data() {
     return {
       list: {},
@@ -45,8 +46,10 @@ export default {
   components: {
     chart: Chart,
   },
-  created: async function () {
-    this.getList();
+  created() {
+    if (!this.loaded) {
+      this.getList();
+    }
   },
   methods: {
     async getList() {
