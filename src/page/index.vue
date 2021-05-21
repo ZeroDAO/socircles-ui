@@ -69,8 +69,9 @@
       </el-drawer>
       <el-main>
         <keep-alive>
-        <router-view></router-view>
+          <router-view v-if="$route.meta.keepAlive"></router-view>
         </keep-alive>
+        <router-view v-if="!$route.meta.keepAlive"></router-view>
       </el-main>
       <el-footer height="100">
         <el-dropdown @command="changeLang">

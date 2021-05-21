@@ -32,10 +32,7 @@ export default [
             {
                 path: 'user/:address',
                 name: 'User',
-                component: User,
-                meta: {
-                    keepAlive: true
-                }
+                component: User
             },
             {
                 path: 'nonce',
@@ -48,7 +45,10 @@ export default [
             {
                 path: 'top',
                 name: 'TOP20',
-                component: Top
+                component: Top,
+                meta: {
+                    keepAlive: true,
+                }
             }
         ]
     }

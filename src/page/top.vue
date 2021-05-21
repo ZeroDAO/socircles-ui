@@ -87,6 +87,7 @@ export default {
       })
         .then((res) => {
           this.topList = res;
+          console.log(res);
           this.topLoading = false;
         })
         .catch((err) => {
