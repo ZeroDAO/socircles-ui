@@ -1,6 +1,6 @@
 <template>
   <div class="select">
-    <span class="lable">NONCE</span>
+    <span class="lable">ROUND</span>
     <el-select v-model="nonce" placeholder="请选择" @change="changeNonce">
       <el-option
         v-for="item in nonceList"
@@ -15,6 +15,7 @@
 
 <script>
 export default {
+  props: ["initRound"],
   data() {
     return {
       nonce: 0,
@@ -32,7 +33,7 @@ export default {
       this.$store
         .dispatch("SetNonceList")
         .then((nonce) => {
-          this.nonce = nonce;
+          this.nonce = this.initRound || nonce;
         })
         .catch((error) => {
           console.log(error);

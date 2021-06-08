@@ -2,6 +2,7 @@ module.exports = {
     page:{
         'dashboard': 'Dashboard',
         'hall_of_fame': 'Hall of Fame',
+        'not_selected_hof': 'Not selected for the Hall of Fame',
         'find' : 'Find',
         'min' : 'Min',
         'max' : 'Max',

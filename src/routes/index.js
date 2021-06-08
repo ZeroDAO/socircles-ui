@@ -35,7 +35,7 @@ export default [
                 component: User
             },
             {
-                path: 'nonce',
+                path: 'nonce/:round?',
                 name: 'Nonce',
                 component: Nonce,
                 meta: {

@@ -1,7 +1,7 @@
 <template>
   <div class="nonce main">
     <el-card class="chare-card" v-loading="headLoading">
-      <nonce-select v-on:changeNonce="newNonce($event)" />
+      <nonce-select v-on:changeNonce="newNonce($event)" :initRound="initRound" />
       <el-row :gutter="20" class="records">
         <el-col xs:="24" :sm="6">
           <div class="cont">
@@ -25,9 +25,9 @@
         </el-col>
       </el-row>
     </el-card>
-    <el-divider class="seed-lable primary">名人堂</el-divider>
+    <el-divider class="seed-lable primary">{{ $t("page.hall_of_fame") }}</el-divider>
     <div v-loading="fameLoading">
-      <p v-if="fameList.length == 0" class="pame-hid">未指定名人堂</p>
+      <p v-if="fameList.length == 0" class="pame-hid">{{ $t("page.not_selected_hof") }}</p>
       <el-row v-else :gutter="10" class="fame">
         <el-col
         :xs="24"
@@ -65,6 +65,7 @@ import { post } from "@/util/http";
 import Chart from "@/components/Chart";
 import NonceSelect from "@/components/NonceSelect";
 import UserInfo from "@/components/UserInfo";
+import tools from "@/util/tools";
 
 export default {
   data() {
@@ -97,6 +98,7 @@ export default {
       listLoading: false,
       headLoading: false,
       fameLoading: false,
+      initRound: null,
     };
   },
   components: {
@@ -105,8 +107,10 @@ export default {
     "user-info": UserInfo,
   },
   created: async function () {
-    this.load();
-    console.log('nonce');
+    let round = this.$route.params.round;
+    round = tools.isNmber(round) ? round : "";
+    this.initRound = round;
+    this.load(round);
   },
   methods: {
     load(nonce = "") {

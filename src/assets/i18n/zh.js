@@ -4,6 +4,7 @@ module.exports = {
   page:{
       'dashboard': '仪表盘',
       'hall_of_fame': '名人堂',
+      'not_selected_hof': '未指定名人堂',
       'find' : '找关系',
       'min' : '最小值',
       'max' : '最大值',

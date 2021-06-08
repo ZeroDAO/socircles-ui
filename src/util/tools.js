@@ -9,7 +9,14 @@ const tools = {
     var d = dd.getDate();
     return m + "-" + d;
   },
-
+  isNmber(obj) {
+    if (typeof obj === 'number') {
+      return !isNaN(obj)
+    } else if (typeof obj === 'string') {
+      return /^[0-9]*$/.test(obj)
+    }
+    return false;
+  },
   isEthAddress(address) {
     return /^(0x)?[0-9a-fA-F]{40}$/.test(address);
   },
